@@ -2,8 +2,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 // notes:
-//  - learn to use debugger
-//   - currently hard coded for a 3x3 only
+//   - learn to use debugger
 //   - look up more problems online to test
 //   - clean up the code
 // Cases where this code doesnt work:
@@ -11,11 +10,11 @@ import java.util.Stack;
 
 public class transportationProblem {
     
-    static void fillOrigSolution(int[] supply, int[] demand, int[][] solution) { // checked
+    static void fillOrigSolution(int[] supply, int[] demand, int[][] solution) {
         int[] s = Arrays.copyOf(supply, supply.length);
         int[] d = Arrays.copyOf(demand, demand.length);
         for(int i = 0; i < solution.length; i++) {
-            for(int j = 0; j < solution.length; j++) {
+            for(int j = 0; j < solution[0].length; j++) {
                 if(s[i] < d[j]){
                     solution[i][j] = s[i];
                     d[j] = d[j] - s[i];
@@ -30,9 +29,9 @@ public class transportationProblem {
         }
     }
 
-    static void reset(int[][] solution, int[][] copy, int[] row, int[] col, int[] myPath) { // checked
+    static void reset(int[][] solution, int[][] copy, int[] row, int[] col, int[] myPath) {
         for(int i = 0; i < solution.length; i++) {
-            for(int j = 0; j < solution.length; j++) {
+            for(int j = 0; j < solution[0].length; j++) {
                 copy[i][j] = solution[i][j];
             }
         }
@@ -47,23 +46,30 @@ public class transportationProblem {
         }
     }
 
-    static boolean check(boolean[] row, boolean[] col) { // checked
-        for(int x = 0; x < row.length; x++) { // this condition will have to be changed when we change the size from just 3x3
-            if(row[x] == false || col[x] == false) {
+    static boolean check(boolean[] row, boolean[] col) {
+        for(int x = 0; x < row.length; x++) {
+            if(row[x] == false) {
+                return true;
+            }
+        }
+        for(int x = 0; x < col.length; x++) {
+            if(col[x] == false) {
                 return true;
             }
         }
         return false;
     }
 
-    static void UandV(int[] row, int[] col, int[][] cost, int[][] solution) { // checked
+    static void UandV(int[] row, int[] col, int[][] cost, int[][] solution) {
         /* Determining where to put the 0 */
-        boolean[] colbool = {false, false, false};
-        boolean[] rowbool = {false, false, false};
-        int[] rowNum = {0, 0, 0};
-        int[] colNum = {0, 0, 0};
+        boolean rowbool[] = new boolean[row.length];
+        boolean colbool[] = new boolean[col.length];
+        Arrays.fill(rowbool, false);
+        Arrays.fill(colbool, false);
+        int rowNum[] = new int[row.length];
+        int colNum[] = new int[col.length];
         for(int i = 0; i < solution.length; i++) {
-            for(int j = 0; j < solution.length; j++) {
+            for(int j = 0; j < solution[0].length; j++) {
                 if(solution[i][j] != 0) {
                     rowNum[i]++;
                     colNum[j]++;
@@ -73,12 +79,14 @@ public class transportationProblem {
         int max = 0;
         String direction= "not sure yet";
         int index = -1;
-        for(int x = 0; x < solution.length; x++) { // the condition here will have to be changed when we make it work for not just 3x3
+        for(int x = 0; x < rowNum.length; x++) { 
             if(rowNum[x] > max) {
                 max = rowNum[x];
                 direction = "Row";
                 index = x;
             }
+        }
+        for(int x = 0; x < colNum.length; x++) {
             if(colNum[x] > max) {
                 max = colNum[x];
                 direction = "Col";
@@ -97,7 +105,7 @@ public class transportationProblem {
         /* Filling in the rest */
         while(check(rowbool, colbool)) {
             for(int i = 0; i < solution.length; i++) {
-                for(int j = 0; j < solution.length; j++) {
+                for(int j = 0; j < solution[0].length; j++) {
                     if(solution[i][j] != 0) {
                         if(colbool[j] == false && rowbool[i] == true) {
                             col[j] = cost[i][j] - row[i];
@@ -113,9 +121,9 @@ public class transportationProblem {
         }
     }
 
-    static void fill(int[][] copy, int[] row, int[] col, int[][] cost) { // checked
+    static void fill(int[][] copy, int[] row, int[] col, int[][] cost) {
         for(int i = 0; i < copy.length; i++) {
-            for(int j = 0; j < copy.length; j++) {
+            for(int j = 0; j < copy[0].length; j++) {
                 if(copy[i][j] == 0) {
                     copy[i][j] = cost[i][j] - (row[i] + col [j]);
                 }
@@ -123,10 +131,10 @@ public class transportationProblem {
         }
     }
 
-    static int[] checkIfDoneOrFindMinBox(int[][] copy) { // checked
+    static int[] checkIfDoneOrFindMinBox(int[][] copy) {
         int min = 0, r = -1, c = -1;
         for(int i = 0; i < copy.length; i++) {
-            for(int j = 0; j < copy.length; j++) {
+            for(int j = 0; j < copy[0].length; j++) {
                 if(copy[i][j] < min) {
                     min = copy[i][j];
                     r = i;
@@ -138,20 +146,22 @@ public class transportationProblem {
         return toReturn;
     }
 
-    static void findPath(int row, int col, int[][] solution, int[] myPath) { // checked
+    static void findPath(int row, int col, int[][] solution, int[] myPath) {
         Stack<Integer> path = new Stack<Integer>();
+        int rowMod = solution.length;
+        int colMod = solution[0].length;
         int rloc = row;
-        int cloc = (col + 1) % 3; // will have to change 3 to be whatever size needed
-        int count = 1; // also will depend on rows/cols
+        int cloc = (col + 1) % colMod;
+        int count = 1;
         String direction = "horizontal";
 
         while(!(rloc == row && cloc == col)) {
             if(solution[rloc][cloc] == 0) {
                 if(direction == "horizontal") {
-                    cloc = (cloc + 1) % 3;
+                    cloc = (cloc + 1) % colMod;
                 }
                 else if(direction == "vertical") {
-                    rloc = (rloc + 1) % 3;
+                    rloc = (rloc + 1) % rowMod;
                 }
                 count++;
             }
@@ -165,14 +175,14 @@ public class transportationProblem {
                 }
                 count = 0;
                 if(direction == "horizontal") {
-                    cloc = (cloc + 1) % 3;
+                    cloc = (cloc + 1) % colMod;
                 }
                 else if(direction == "vertical") {
-                    rloc = (rloc + 1) % 3;
+                    rloc = (rloc + 1) % rowMod;
                 }
                 count++;
             }
-            if(count == 3) {
+            if((direction == "horizontal" && count == colMod) || (direction == "vertical" && count == rowMod)) {
                 count = path.pop();
                 if(direction == "horizontal") {
                     direction = "vertical";
@@ -181,10 +191,10 @@ public class transportationProblem {
                     direction = "horizontal";
                 }
                 if(direction == "horizontal") {
-                    cloc = (cloc + 1) % 3;
+                    cloc = (cloc + 1) % colMod;
                 }
                 else if(direction == "vertical") {
-                    rloc = (rloc + 1) % 3;
+                    rloc = (rloc + 1) % rowMod;
                 }
                 count++;
             }
@@ -213,18 +223,20 @@ public class transportationProblem {
     // }
 
     static void edit(int r, int c, int[][] solution, int[] myPath) {
+        int rowMod = solution.length;
+        int colMod = solution[0].length;
         /* Finding the value we add and subtract by */
         int min = 100;
         int i = 0;
         while(myPath[i] != -1) {
             if(i % 2 == 0) {
-                c = (c + myPath[i]) % 3;
+                c = (c + myPath[i]) % colMod;
                 if(solution[r][c] < min) {
                     min = solution[r][c];
                 }
             }
             else {
-                r = (r + myPath[i]) % 3;
+                r = (r + myPath[i]) % rowMod;
             }
             i++;
         }
@@ -232,11 +244,11 @@ public class transportationProblem {
         i = 0;
         while(myPath[i] != -1) {
             if(i % 2 == 0) {
-                c = (c + myPath[i]) % 3;
+                c = (c + myPath[i]) % colMod;
                 solution[r][c] = solution[r][c] - min;
             }
             else {
-                r = (r + myPath[i]) % 3;
+                r = (r + myPath[i]) % rowMod;
                 solution[r][c] = solution[r][c] + min;
             }
             i++;
@@ -244,14 +256,15 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {100, 150, 120};
-        int[] demand = {80, 120, 170};
-        int[][] cost = {{5, 8, 6}, {7, 9, 4}, {6, 5, 7}};
-        int[][] solution = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
-        int[][] copy = {{0, 0, 0}, {0, 0, 0}, {0, 0, 0}};
+        int[] supply = {40,20};
+        int[] demand = {25,10,25};
+        int[][] cost = {{550, 300, 400}, {350,300,100}};
+        int solution[][] = new int[cost.length][cost[0].length];
+        int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];
         int col[] = new int[demand.length];
-        int myPath[] = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
+        int myPath[] = new int[(supply.length * demand.length)];
+        Arrays.fill(myPath, -1);
         int box[] = new int[2];
         int count = 0;
 
@@ -260,7 +273,7 @@ public class transportationProblem {
                     System.out.println();
                     System.out.println("Iteration " + ++count + ":");
                     for(int i = 0; i < solution.length; i++) {
-                        for(int j = 0; j < solution.length; j++) {
+                        for(int j = 0; j < solution[0].length; j++) {
                             System.out.print(solution[i][j] + " ");
                         }
                         System.out.println();
@@ -280,7 +293,7 @@ public class transportationProblem {
         fill(copy, row, col, cost);
                     System.out.println();
                     for(int i = 0; i < copy.length; i++) {
-                        for(int j = 0; j < copy.length; j++) {
+                        for(int j = 0; j < copy[0].length; j++) {
                             System.out.print(copy[i][j] + " ");
                         }
                         System.out.println();
@@ -301,7 +314,7 @@ public class transportationProblem {
                         System.out.println();
                         System.out.println("Iteration " + ++count + ":");
                         for(int i = 0; i < solution.length; i++) {
-                            for(int j = 0; j < solution.length; j++) {
+                            for(int j = 0; j < solution[0].length; j++) {
                                 System.out.print(solution[i][j] + " ");
                             }
                             System.out.println();
@@ -321,16 +334,14 @@ public class transportationProblem {
             fill(copy, row, col, cost);
             System.out.println();
                         for(int i = 0; i < copy.length; i++) {
-                            for(int j = 0; j < copy.length; j++) {
+                            for(int j = 0; j < copy[0].length; j++) {
                                 System.out.print(copy[i][j] + " ");
                             }
                             System.out.println();
                         }
                         System.out.println();
             box = checkIfDoneOrFindMinBox(copy);
-                        System.out.println("Min is at row " + box[0] + " col " + box[1]);
-                        
-        }
-
+                        System.out.println("Min is at row " + box[0] + " col " + box[1]);       
+       }
     }
 }

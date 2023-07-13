@@ -7,6 +7,7 @@ import java.util.Stack;
 //   - clean up the code
 // Cases where this code doesnt work:
 //   - when you need 2 0's in the u and v (UandV function) i.e. placing the first zero doesn't necessarily dictate all the other values
+//
 
 public class transportationProblem {
     

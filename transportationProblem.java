@@ -257,9 +257,9 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {50,45,65};
-        int[] demand = {20,40,40,35,25};
-        int[][] cost = {{2,6,5,3,5}, {8,9,7,9,3}, {2,3,8,4,6}};
+        int[] supply = {};
+        int[] demand = {};
+        int[][] cost = {};
         int solution[][] = new int[cost.length][cost[0].length];
         int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];

@@ -4,20 +4,19 @@ import java.util.Stack;
 // notes:
 //   - learn to use debugger
 //   - look up more problems online to test
-//   - clean up the code
-//   - present solution better in terminal
 //   - user input
-//   - check problem is feasible
-//      - if error, note the error
-//      - supply = demand
-//       - inputs exist and are valid
+//   - present solution better in terminal
+//   - better error messaging for fesibility check
+//   - complete the comments
 //   - (using int has a max value) 
+//   - clean up the code
 // Cases where this code doesnt work:
 //   - when you need 2 0's in the u and v (UandV function) i.e. placing the first zero doesn't necessarily dictate all the other values
 //
 
 public class transportationProblem {
 
+    /*  */
     static boolean isFeasible(int[] supply, int[] demand, int[][] cost) {
         if(supply.length == 0) {
             System.out.print("This problem is infeasible: You need at least 1 warehouse to deliver the supply.");
@@ -60,7 +59,8 @@ public class transportationProblem {
         return true;
     }
     
-    static void fillOrigSolution(int[] supply, int[] demand, int[][] solution) {
+    /*  */
+    static void fillInitialSolution(int[] supply, int[] demand, int[][] solution) {
         int[] s = Arrays.copyOf(supply, supply.length);
         int[] d = Arrays.copyOf(demand, demand.length);
         for(int i = 0; i < solution.length; i++) {
@@ -79,6 +79,7 @@ public class transportationProblem {
         }
     }
 
+    /*  */
     static void reset(int[][] solution, int[][] copy, int[] row, int[] col, int[] myPath) {
         for(int i = 0; i < solution.length; i++) {
             for(int j = 0; j < solution[0].length; j++) {
@@ -96,6 +97,7 @@ public class transportationProblem {
         }
     }
 
+    /*  */
     static boolean check(boolean[] row, boolean[] col) {
         for(int x = 0; x < row.length; x++) {
             if(row[x] == false) {
@@ -110,14 +112,15 @@ public class transportationProblem {
         return false;
     }
 
+    /*  */
     static void UandV(int[] row, int[] col, int[][] cost, int[][] solution) {
-        /* Determining where to put the 0 */
         boolean rowbool[] = new boolean[row.length];
         boolean colbool[] = new boolean[col.length];
         Arrays.fill(rowbool, false);
         Arrays.fill(colbool, false);
         int rowNum[] = new int[row.length];
         int colNum[] = new int[col.length];
+        /* Determining where to put the 0 */
         for(int i = 0; i < solution.length; i++) {
             for(int j = 0; j < solution[0].length; j++) {
                 if(solution[i][j] != 0) {
@@ -171,6 +174,7 @@ public class transportationProblem {
         }
     }
 
+    /*  */
     static void fill(int[][] copy, int[] row, int[] col, int[][] cost) {
         for(int i = 0; i < copy.length; i++) {
             for(int j = 0; j < copy[0].length; j++) {
@@ -181,6 +185,7 @@ public class transportationProblem {
         }
     }
 
+    /*  */
     static int[] checkIfDoneOrFindMinBox(int[][] copy) {
         int min = 0, r = -1, c = -1;
         for(int i = 0; i < copy.length; i++) {
@@ -196,6 +201,7 @@ public class transportationProblem {
         return toReturn;
     }
 
+    /*  */
     static void findPath(int row, int col, int[][] solution, int[] myPath) {
         Stack<Integer> path = new Stack<Integer>();
         int rowMod = solution.length;
@@ -263,17 +269,9 @@ public class transportationProblem {
             myPath[x] = path2.pop();
             x++;
         }
-        // printStack(path2, myPath, 0);
     }
 
-    // static void printStack(Stack<Integer> path, int[] myPath, int i) {
-    //     if(path.empty()) {
-    //         return;
-    //     }
-    //     myPath[i] = path.pop();
-    //     printStack(path, myPath, i+1);
-    // }
-
+    /*  */
     static void edit(int r, int c, int[][] solution, int[] myPath) {
         int rowMod = solution.length;
         int colMod = solution[0].length;
@@ -308,6 +306,56 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
+        // User input
+        int[] supply = {7, 12, 11};
+        int[] demand = {10, 10, 10};
+        int[][] cost = {{1, 2, 6}, {0, 4, 2}, {3, 1, 5}};
+
+        // Feasibility check
+        if(!isFeasible(supply, demand, cost)) {
+            return;
+        }
+
+        int solution[][] = new int[cost.length][cost[0].length];
+        int copy[][] = new int[cost.length][cost[0].length];
+        int row[] = new int[supply.length];
+        int col[] = new int[demand.length];
+        int myPath[] = new int[(supply.length * demand.length)];
+        Arrays.fill(myPath, -1);
+        int box[] = new int[2];
+        
+        // Solve
+        fillInitialSolution(supply, demand, solution);
+        reset(solution, copy, row, col, myPath);
+        UandV(row, col, cost, solution);
+        fill(copy, row, col, cost);
+        box = checkIfDoneOrFindMinBox(copy); // I can probably find a better way to end the code if done
+        while(box[0] != -1) {
+            findPath(box[0], box[1], solution, myPath);
+            edit(box[0], box[1], solution, myPath);
+            reset(solution, copy, row, col, myPath);
+            UandV(row, col, cost, solution);
+            fill(copy, row, col, cost);
+            box = checkIfDoneOrFindMinBox(copy);       
+        }
+
+        // Output solution
+        System.out.println();
+        System.out.println("Solution:");
+        for(int i = 0; i < solution.length; i++) {
+            for(int j = 0; j < solution[0].length; j++) {
+                if(solution[i][j] != 0) {
+                    System.out.println(solution[i][j] + " units should be shipped from warehouse " + (i+1) + " to store " + (j+1) + ".");
+                }
+            }
+        }
+        System.out.println();
+    }
+}
+
+// test main
+/*
+public static void main(String[] args){
         int[] supply = {7, 12, 11};
         int[] demand = {10, 10, 10};
         int[][] cost = {{1, 2, 6}, {0, 4, 2}, {3, 1, 5}};
@@ -410,3 +458,4 @@ public class transportationProblem {
         System.out.println();
     }
 }
+*/

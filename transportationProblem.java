@@ -5,6 +5,11 @@ import java.util.Stack;
 //   - learn to use debugger
 //   - look up more problems online to test
 //   - clean up the code
+//   - present solution better in terminal
+//   - check problem is feasible
+//   - (using int has a max value)
+//       - supply = demand
+//       - inputs exist and are valid
 // Cases where this code doesnt work:
 //   - when you need 2 0's in the u and v (UandV function) i.e. placing the first zero doesn't necessarily dictate all the other values
 //
@@ -167,37 +172,39 @@ public class transportationProblem {
                 count++;
             }
             else {
-                path.push(count);
-                if(direction == "horizontal") {
-                    direction = "vertical";
+                if((direction == "horizontal" && count == colMod) || (direction == "vertical" && count == rowMod)) {
+                    count = path.pop();
+                    if(direction == "horizontal") {
+                        direction = "vertical";
+                    }
+                    else if(direction == "vertical") {
+                        direction = "horizontal";
+                    }
+                    if(direction == "horizontal") {
+                        cloc = (cloc + 1) % colMod;
+                    }
+                    else if(direction == "vertical") {
+                        rloc = (rloc + 1) % rowMod;
+                    }
+                    count++;
                 }
-                else if(direction == "vertical") {
-                    direction = "horizontal";
+                else {
+                    path.push(count);
+                    if(direction == "horizontal") {
+                        direction = "vertical";
+                    }
+                    else if(direction == "vertical") {
+                        direction = "horizontal";
+                    }
+                    count = 0;
+                    if(direction == "horizontal") {
+                        cloc = (cloc + 1) % colMod;
+                    }
+                    else if(direction == "vertical") {
+                        rloc = (rloc + 1) % rowMod;
+                    }
+                    count++;
                 }
-                count = 0;
-                if(direction == "horizontal") {
-                    cloc = (cloc + 1) % colMod;
-                }
-                else if(direction == "vertical") {
-                    rloc = (rloc + 1) % rowMod;
-                }
-                count++;
-            }
-            if((direction == "horizontal" && count == colMod) || (direction == "vertical" && count == rowMod)) {
-                count = path.pop();
-                if(direction == "horizontal") {
-                    direction = "vertical";
-                }
-                else if(direction == "vertical") {
-                    direction = "horizontal";
-                }
-                if(direction == "horizontal") {
-                    cloc = (cloc + 1) % colMod;
-                }
-                else if(direction == "vertical") {
-                    rloc = (rloc + 1) % rowMod;
-                }
-                count++;
             }
         }
         path.push(count);
@@ -227,7 +234,7 @@ public class transportationProblem {
         int rowMod = solution.length;
         int colMod = solution[0].length;
         /* Finding the value we add and subtract by */
-        int min = 100;
+        int min = Integer.MAX_VALUE;
         int i = 0;
         while(myPath[i] != -1) {
             if(i % 2 == 0) {
@@ -257,9 +264,9 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {40,20};
-        int[] demand = {25,10,25};
-        int[][] cost = {{550, 300, 400}, {350,300,100}};
+        int[] supply = {7, 12, 11};
+        int[] demand = {10, 10, 10};
+        int[][] cost = {{1, 2, 6}, {0, 4, 2}, {3, 1, 5}};
         int solution[][] = new int[cost.length][cost[0].length];
         int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];
@@ -304,6 +311,7 @@ public class transportationProblem {
                     System.out.println("Min is at row " + box[0] + " col " + box[1]);
 
         while(box[0] != -1) {
+        // while(count < 2) {
             findPath(box[0], box[1], solution, myPath);
                         System.out.print("Path: ");
                         for(int x = 0; x < myPath.length; x++) {
@@ -343,6 +351,15 @@ public class transportationProblem {
                         System.out.println();
             box = checkIfDoneOrFindMinBox(copy);
                         System.out.println("Min is at row " + box[0] + " col " + box[1]);       
-       }
+        }
+        System.out.println();
+        System.out.println("Solution:");
+        for(int i = 0; i < solution.length; i++) {
+            for(int j = 0; j < solution[0].length; j++) {
+                System.out.print(solution[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }

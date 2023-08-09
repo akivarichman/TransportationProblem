@@ -257,9 +257,9 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {40,20};
-        int[] demand = {25,10,25};
-        int[][] cost = {{550, 300, 400}, {350,300,100}};
+        int[] supply = {50,45,65};
+        int[] demand = {20,40,40,35,25};
+        int[][] cost = {{2,6,5,3,5}, {8,9,7,9,3}, {2,3,8,4,6}};
         int solution[][] = new int[cost.length][cost[0].length];
         int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];
@@ -343,6 +343,15 @@ public class transportationProblem {
                         System.out.println();
             box = checkIfDoneOrFindMinBox(copy);
                         System.out.println("Min is at row " + box[0] + " col " + box[1]);       
-       }
+        }
+        System.out.println();
+        System.out.println("Solution:");
+        for(int i = 0; i < solution.length; i++) {
+            for(int j = 0; j < solution[0].length; j++) {
+                System.out.print(solution[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 }

@@ -5,6 +5,11 @@ import java.util.Stack;
 //   - learn to use debugger
 //   - look up more problems online to test
 //   - clean up the code
+//   - present solution better in terminal
+//   - check problem is feasible
+//   - (using int has a max value)
+//       - supply = demand
+//       - inputs exist and are valid
 // Cases where this code doesnt work:
 //   - when you need 2 0's in the u and v (UandV function) i.e. placing the first zero doesn't necessarily dictate all the other values
 //
@@ -229,7 +234,7 @@ public class transportationProblem {
         int rowMod = solution.length;
         int colMod = solution[0].length;
         /* Finding the value we add and subtract by */
-        int min = 100;
+        int min = Integer.MAX_VALUE;
         int i = 0;
         while(myPath[i] != -1) {
             if(i % 2 == 0) {
@@ -259,9 +264,9 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {19,37,34};
-        int[] demand = {16,18,31,25};
-        int[][] cost = {{5,3,6,2}, {4,7,9,1}, {3,4,7,5}};
+        int[] supply = {7, 12, 11};
+        int[] demand = {10, 10, 10};
+        int[][] cost = {{1, 2, 6}, {0, 4, 2}, {3, 1, 5}};
         int solution[][] = new int[cost.length][cost[0].length];
         int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];

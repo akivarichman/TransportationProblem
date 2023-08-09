@@ -6,6 +6,8 @@ import java.util.Stack;
 //   - look up more problems online to test
 //   - user input
 //   - present solution better in terminal
+//   - better error messaging for fesibility check
+//   - complete the comments
 //   - (using int has a max value) 
 //   - clean up the code
 // Cases where this code doesnt work:
@@ -267,16 +269,7 @@ public class transportationProblem {
             myPath[x] = path2.pop();
             x++;
         }
-        // printStack(path2, myPath, 0);
     }
-
-    // static void printStack(Stack<Integer> path, int[] myPath, int i) {
-    //     if(path.empty()) {
-    //         return;
-    //     }
-    //     myPath[i] = path.pop();
-    //     printStack(path, myPath, i+1);
-    // }
 
     /*  */
     static void edit(int r, int c, int[][] solution, int[] myPath) {
@@ -331,6 +324,7 @@ public class transportationProblem {
         Arrays.fill(myPath, -1);
         int box[] = new int[2];
         
+        // Solve
         fillInitialSolution(supply, demand, solution);
         reset(solution, copy, row, col, myPath);
         UandV(row, col, cost, solution);
@@ -344,6 +338,8 @@ public class transportationProblem {
             fill(copy, row, col, cost);
             box = checkIfDoneOrFindMinBox(copy);       
         }
+
+        // Output solution
         System.out.println();
         System.out.println("Solution:");
         for(int i = 0; i < solution.length; i++) {

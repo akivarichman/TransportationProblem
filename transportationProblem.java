@@ -6,15 +6,59 @@ import java.util.Stack;
 //   - look up more problems online to test
 //   - clean up the code
 //   - present solution better in terminal
+//   - user input
 //   - check problem is feasible
-//   - (using int has a max value)
-//       - supply = demand
+//      - if error, note the error
+//      - supply = demand
 //       - inputs exist and are valid
+//   - (using int has a max value) 
 // Cases where this code doesnt work:
 //   - when you need 2 0's in the u and v (UandV function) i.e. placing the first zero doesn't necessarily dictate all the other values
 //
 
 public class transportationProblem {
+
+    static boolean isFeasible(int[] supply, int[] demand, int[][] cost) {
+        if(supply.length == 0) {
+            System.out.print("This problem is infeasible: You need at least 1 warehouse to deliver the supply.");
+            return false;
+        }
+        if(demand.length == 0) {
+            System.out.print("This problem is infeasible: You need at least 1 store to recieve the supply.");
+            return false;
+        }
+        if(cost.length != supply.length) {
+            System.out.print("This problem is infeasible: Please enter a cost for shipping from every warehouse.");
+            return false;
+        }
+        for(int x = 0; x < cost.length; x++) {
+            if(cost[x].length != demand.length) {
+                System.out.print("This problem is infeasible: Please enter a cost for shipping to every store.");
+                return false;
+            }
+        }
+        for(int i = 0; i < cost.length; i++) {
+            for(int j = 0; j < cost[0].length; j++) {
+                if(cost[i][j] < 0) {
+                    System.out.print("This problem is infeasible: The cost of shipping supplies cannot be negative.");
+                    return false;
+                }
+            }
+        }
+        int totalSupply = 0;
+        int totalDemand = 0;
+        for(int x = 0; x < supply.length; x++) {
+            totalSupply += supply[x];
+        }
+        for(int x = 0; x < demand.length; x++) {
+            totalDemand += demand[x];
+        }
+        if(totalSupply != totalDemand) {
+            System.out.print("This problem is infeasible: The total supply must equal the total demand.");
+            return false;
+        }
+        return true;
+    }
     
     static void fillOrigSolution(int[] supply, int[] demand, int[][] solution) {
         int[] s = Arrays.copyOf(supply, supply.length);
@@ -276,6 +320,10 @@ public class transportationProblem {
         int box[] = new int[2];
         int count = 0;
 
+        if(!isFeasible(supply, demand, cost)) {
+            return;
+        }
+        
         fillOrigSolution(supply, demand, solution);
         reset(solution, copy, row, col, myPath);
                     System.out.println();

@@ -167,37 +167,39 @@ public class transportationProblem {
                 count++;
             }
             else {
-                path.push(count);
-                if(direction == "horizontal") {
-                    direction = "vertical";
+                if((direction == "horizontal" && count == colMod) || (direction == "vertical" && count == rowMod)) {
+                    count = path.pop();
+                    if(direction == "horizontal") {
+                        direction = "vertical";
+                    }
+                    else if(direction == "vertical") {
+                        direction = "horizontal";
+                    }
+                    if(direction == "horizontal") {
+                        cloc = (cloc + 1) % colMod;
+                    }
+                    else if(direction == "vertical") {
+                        rloc = (rloc + 1) % rowMod;
+                    }
+                    count++;
                 }
-                else if(direction == "vertical") {
-                    direction = "horizontal";
+                else {
+                    path.push(count);
+                    if(direction == "horizontal") {
+                        direction = "vertical";
+                    }
+                    else if(direction == "vertical") {
+                        direction = "horizontal";
+                    }
+                    count = 0;
+                    if(direction == "horizontal") {
+                        cloc = (cloc + 1) % colMod;
+                    }
+                    else if(direction == "vertical") {
+                        rloc = (rloc + 1) % rowMod;
+                    }
+                    count++;
                 }
-                count = 0;
-                if(direction == "horizontal") {
-                    cloc = (cloc + 1) % colMod;
-                }
-                else if(direction == "vertical") {
-                    rloc = (rloc + 1) % rowMod;
-                }
-                count++;
-            }
-            if((direction == "horizontal" && count == colMod) || (direction == "vertical" && count == rowMod)) {
-                count = path.pop();
-                if(direction == "horizontal") {
-                    direction = "vertical";
-                }
-                else if(direction == "vertical") {
-                    direction = "horizontal";
-                }
-                if(direction == "horizontal") {
-                    cloc = (cloc + 1) % colMod;
-                }
-                else if(direction == "vertical") {
-                    rloc = (rloc + 1) % rowMod;
-                }
-                count++;
             }
         }
         path.push(count);
@@ -257,9 +259,9 @@ public class transportationProblem {
     }
     
     public static void main(String[] args){
-        int[] supply = {};
-        int[] demand = {};
-        int[][] cost = {};
+        int[] supply = {19,37,34};
+        int[] demand = {16,18,31,25};
+        int[][] cost = {{5,3,6,2}, {4,7,9,1}, {3,4,7,5}};
         int solution[][] = new int[cost.length][cost[0].length];
         int copy[][] = new int[cost.length][cost[0].length];
         int row[] = new int[supply.length];
@@ -304,6 +306,7 @@ public class transportationProblem {
                     System.out.println("Min is at row " + box[0] + " col " + box[1]);
 
         while(box[0] != -1) {
+        // while(count < 2) {
             findPath(box[0], box[1], solution, myPath);
                         System.out.print("Path: ");
                         for(int x = 0; x < myPath.length; x++) {

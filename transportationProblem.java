@@ -359,7 +359,6 @@ public class transportationProblem {
                     System.out.println("Min is at row " + box[0] + " col " + box[1]);
 
         while(box[0] != -1) {
-        // while(count < 2) {
             findPath(box[0], box[1], solution, myPath);
                         System.out.print("Path: ");
                         for(int x = 0; x < myPath.length; x++) {

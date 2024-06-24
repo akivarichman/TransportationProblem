@@ -1,7 +1,6 @@
 from NWCM import NWCM
 from LCM import LCM
-
-print("\nHello World\n")
+from VAM import VAM
 
 supply = [175, 200, 400, 225]
 demand = [50, 175, 225, 175, 300, 75]
@@ -14,5 +13,8 @@ total = 1000
 
 # print("LCM")
 # LCM(supply, demand, costs, solution, total)
+
+print("VAM")
+VAM(supply, demand, costs, solution, total)
 
 print()

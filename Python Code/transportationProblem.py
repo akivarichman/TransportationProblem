@@ -9,8 +9,8 @@ costs = [[17, 18, 10, 10, 5, 13], [6, 11, 13, 5, 10, 8], [9, 10, 4, 4, 3, 5], [1
 solution = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]]
 total = 1000
 
-print("NWCM")
-NWCM(supply, demand, costs, solution, total)
+# print("NWCM")
+# NWCM(supply, demand, costs, solution, total)
 
 # print("LCM")
 # LCM(supply, demand, costs, solution, total)

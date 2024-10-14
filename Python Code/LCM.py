@@ -1,3 +1,4 @@
+# what about tiebreaker of adding most units to
 def LCM(supply, demand, costs, solution, total):
     from queue import PriorityQueue
     pq = PriorityQueue()
@@ -10,10 +11,11 @@ def LCM(supply, demand, costs, solution, total):
         supplyIndex = cell[1]
         demandIndex = cell[2]
         allocation = min(supply[supplyIndex], demand[demandIndex])
-        solution[supplyIndex][demandIndex] = allocation
-        supply[supplyIndex] = supply[supplyIndex] - allocation
-        demand[demandIndex] = demand[demandIndex] - allocation
-        total = total - allocation
+        if allocation is not 0:
+            solution[supplyIndex][demandIndex] = allocation
+            supply[supplyIndex] = supply[supplyIndex] - allocation
+            demand[demandIndex] = demand[demandIndex] - allocation
+            total = total - allocation
 
     for row in solution:
         for col in row:

@@ -2,8 +2,8 @@
 def updatePenalties(penalties, costs, rows, columns, creatingPenalties):
     for row in range(rows):
         if(creatingPenalties or penalties['r', row] >= 0):
-            min1 = 100 # really max int
-            min2 = 100 # really max int
+            min1 = float('inf')
+            min2 = float('inf')
             for col in range(columns):
                 if(creatingPenalties or penalties['c', col] >= 0):
                     if(costs[row][col] < min1):
@@ -14,8 +14,8 @@ def updatePenalties(penalties, costs, rows, columns, creatingPenalties):
             penalties["r",row] = min2 - min1
     for col in range(columns):
         if(creatingPenalties or penalties['c', col] >= 0):
-            min1 = 100 # really max int
-            min2 = 100 # really max int
+            min1 = float('inf')
+            min2 = float('inf')
             for row in range(rows):
                 if(creatingPenalties or penalties['r', row] >= 0):
                     if(costs[row][col] < min1):
@@ -26,19 +26,19 @@ def updatePenalties(penalties, costs, rows, columns, creatingPenalties):
             penalties["c",col] = min2 - min1
 
 # find where to place allocation based on min cost
-def identifyCellToAllocate(direction, costs, row_num, col_num, penalties, rows, columns, creatingPenalties):
+def identifyCellToAllocate(direction, costs, row_num, col_num, penalties, rows, columns):
     if(direction == 'r'):
-        mini = 100 # really max int
+        minCost = float('inf')
         for col in range(columns):
-            if(penalties['c', col] >= 0 and costs[row_num][col] < mini):
+            if(penalties['c', col] >= 0 and costs[row_num][col] < minCost):
                 col_num = col
-                mini = costs[row_num][col]
+                minCost = costs[row_num][col]
     if(direction == 'c'):
-        mini = 100 # really max int
+        minCost = float('inf')
         for row in range(rows):
-            if(penalties['r', row] >= 0 and costs[row][col_num] < mini):
+            if(penalties['r', row] >= 0 and costs[row][col_num] < minCost):
                 row_num = row
-                mini = costs[row][col_num]
+                minCost = costs[row][col_num]
     return [row_num, col_num]
 
 # what about tiebreaker of adding most units to
@@ -61,7 +61,7 @@ def VAM(supply, demand, costs, solution, total, rows, columns):
             col_num = num
             penalties['c', num] = -1
         # allocating to min cost cell in that row / col with max penalty
-        row_num, col_num = identifyCellToAllocate(direction, costs, row_num, col_num, penalties, rows, columns, creatingPenalties)
+        row_num, col_num = identifyCellToAllocate(direction, costs, row_num, col_num, penalties, rows, columns)
         allocation = min(supply[row_num], demand[col_num])
         solution[row_num][col_num] = allocation
         supply[row_num] = supply[row_num] - allocation

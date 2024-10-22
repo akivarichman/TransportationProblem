@@ -18,6 +18,6 @@ columns = len(demand)
 # print("LCM")
 # LCM(supply, demand, costs, solution, total)
 
-# 
-print("VAM")
-VAM(supply, demand, costs, solution, total, rows, columns)
+# Code for VAM is (almost) complete and works (check the note in that file)
+# print("VAM")
+# VAM(supply, demand, costs, solution, total, rows, columns)

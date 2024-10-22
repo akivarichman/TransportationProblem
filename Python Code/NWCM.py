@@ -6,13 +6,9 @@ def NWCM(supply, demand, costs, solution, total):
         solution[s][d] = allocation
         supply[s] = supply[s] - allocation
         demand[d] = demand[d] - allocation
+        total = total - allocation
         if supply[s] == 0:
             s = s + 1
-        else:
+        if demand[d] == 0:
             d = d + 1
-        total = total - allocation
-    for row in solution:
-        for col in row:
-            print(col, end=" ")
-        print()
-    print()
+    return solution

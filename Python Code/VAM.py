@@ -60,7 +60,7 @@ def VAM(supply, demand, costs, solution, total, rows, columns):
             row_num = None
             col_num = num
             penalties['c', num] = -1
-        # allocating to min cost cell in that row / col with max penalty
+        # allocating to min cost cell in row/col with max penalty
         row_num, col_num = identifyCellToAllocate(direction, costs, row_num, col_num, penalties, rows, columns)
         allocation = min(supply[row_num], demand[col_num])
         solution[row_num][col_num] = allocation

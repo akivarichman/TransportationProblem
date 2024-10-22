@@ -67,3 +67,4 @@ def VAM(supply, demand, costs, solution, total, rows, columns):
         supply[row_num] = supply[row_num] - allocation
         demand[col_num] = demand[col_num] - allocation
         total = total - allocation
+    return solution

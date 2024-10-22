@@ -16,9 +16,3 @@ def LCM(supply, demand, costs, solution, total):
             supply[supplyIndex] = supply[supplyIndex] - allocation
             demand[demandIndex] = demand[demandIndex] - allocation
             total = total - allocation
-
-    for row in solution:
-        for col in row:
-            print(col, end=" ")
-        print()
-    print()

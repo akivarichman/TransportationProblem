@@ -12,7 +12,7 @@ columns = len(demand)
 
 # Code for NWCM is complete and works
 # print("NWCM")
-# NWCM(supply, demand, costs, solution, total)
+solution = NWCM(supply, demand, costs, solution, total)
 
 # Code for LCM is (almost) complete and works (check the note in that file)
 # print("LCM")
@@ -21,3 +21,9 @@ columns = len(demand)
 # Code for VAM is (almost) complete and works (check the note in that file)
 # print("VAM")
 # VAM(supply, demand, costs, solution, total, rows, columns)
+
+for row in solution:
+    for col in row:
+        print(col, end=" ")
+    print()
+print()

@@ -2,7 +2,23 @@ import numpy as np
 from collections import deque
 
 def clean_path(path):
-    
+    row = 0
+    col = 1
+    index = 0
+    direction = 'horizontal'
+    if path[0][1] == path[1][1]:
+        direction = 'vertical'
+    while index < len(path) - 2:
+        if direction == 'horizontal':
+            while path[index][row] == path[index+2][row]:
+                path.pop(index + 1)
+            index += 1
+            direction = 'vertical'
+        else:
+            while path[index][col] == path[index+2][col]:
+                path.pop(index + 1)
+            index += 1
+            direction = 'horizontal'
     return path
 
 
@@ -47,7 +63,7 @@ def find_path(solution, start, end):
             if col != j and solution[i][col] > 0 and (i, col) not in visited:
                 new_path = path + [(i, col)]  # Add this move to the path
                 if col == end[1]:  # If the column matches the end cell's column, we can completed the loop
-                    return clean_path(new_path + [end])
+                    return clean_path([end] + new_path)
                 # Push this move onto the stack for further exploration
                 stack.append(((i, col), new_path, visited.copy())) # sending the set 'visited' into the stack with send a reference, we need to copy the set to avoid future changes from affecting this piece of the stack
 
@@ -56,7 +72,7 @@ def find_path(solution, start, end):
             if row != i and solution[row][j] > 0 and (row, j) not in visited:
                 new_path = path + [(row, j)]  # Add this move to the path
                 if row == end[0]:  # If the row matches the end cell's row, we can completed the loop
-                    return clean_path(new_path + [end])
+                    return clean_path([end] + new_path)
                 # Push this move onto the stack for further exploration
                 stack.append(((row, j), new_path, visited.copy()))
 
@@ -74,16 +90,27 @@ def stepping_stone_method(costs, solution, rows, columns):
                     path = find_path(solution, (i, j), (i, j))
                     print('----- [', i, '][ ', j, '] -----')
                     print(path)
-                    print()
-                    # if path:   ### not sure why this is needed
-                    #     path_cost = 0
-                    #     sign = 1
-                    #     for (x, y) in path:
-                    #         path_cost += sign * costs[x][y]
-                    #         sign *= -1
-                    #     opportunity_costs[i][j] = path_cost
-        
-        return solution
+                    if path:   ### not sure why this is needed
+                        path_cost = 0
+                        sign = 1
+                        for (x, y) in path:
+                            path_cost += sign * costs[x][y]
+                            sign *= -1
+                        opportunity_costs[i][j] = path_cost
+                        print('Opportunity Cost', opportunity_costs[i][j])
+                        print()
+                    else:
+                        print('degenerate')
+                        break
+                    
+        # Find lowest opportunity cost
+        min_cost = np.min(opportunity_costs)
+        if min_cost >= 0:
+            # No improvement possible, optimal solution found
+            break
+
+
+    return solution
 
 
 

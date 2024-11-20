@@ -22,7 +22,7 @@ def clean_path(path):
     return path
 
 
-def find_path(solution, start, end):
+def find_path(solution, start, end, basic_cells):
     """
     Find a path (loop) from start to end in the transportation matrix without recursion.
     The path alternates between horizontal and vertical moves.
@@ -60,7 +60,7 @@ def find_path(solution, start, end):
 
         # Check horizontal moves (in the same row)
         for col in range(columns):
-            if col != j and solution[i][col] > 0 and (i, col) not in visited:
+            if col != j and (i, col) in basic_cells and (i, col) not in visited:
                 new_path = path + [(i, col)]  # Add this move to the path
                 if col == end[1]:  # If the column matches the end cell's column, we can completed the loop
                     return clean_path([end] + new_path)
@@ -69,7 +69,7 @@ def find_path(solution, start, end):
 
         # Check vertical moves (in the same column)
         for row in range(rows):
-            if row != i and solution[row][j] > 0 and (row, j) not in visited:
+            if row != i and (row, j) in basic_cells and (row, j) not in visited:
                 new_path = path + [(row, j)]  # Add this move to the path
                 if row == end[0]:  # If the row matches the end cell's row, we can completed the loop
                     return clean_path([end] + new_path)
@@ -81,13 +81,21 @@ def find_path(solution, start, end):
 
 def stepping_stone_method(costs, solution, rows, columns):
 
+    basic_cells = set()
+    for row in range(len(solution)):
+        for col in range(len(solution[row])):
+            if solution[row][col] > 0:
+                basic_cells.add((row, col))
+
     while True:
+        print()
         # calculating the opportunity costs
         opportunity_costs = np.full((rows, columns), np.inf)
         for i in range(rows):
             for j in range(columns):
-                if solution[i][j] == 0: # only find path and calculate opportunity cost for non-basic cells
-                    path = find_path(solution, (i, j), (i, j))
+                # if solution[i][j] == 0: # only find path and calculate opportunity cost for non-basic cells
+                if (i, j) not in basic_cells:
+                    path = find_path(solution, (i, j), (i, j), basic_cells)
                     print('----- [', i, '][ ', j, '] -----')
                     print(path)
                     if path:   ### not sure why this is needed
@@ -98,10 +106,9 @@ def stepping_stone_method(costs, solution, rows, columns):
                             sign *= -1
                         opportunity_costs[i][j] = path_cost
                         print('Opportunity Cost', opportunity_costs[i][j])
-                        print()
+                        # print()
                     else:
                         print('degenerate')
-                        break
                     
         # Find lowest opportunity cost
         min_cost = np.min(opportunity_costs)
@@ -109,8 +116,61 @@ def stepping_stone_method(costs, solution, rows, columns):
             # No improvement possible, optimal solution found
             break
 
+        # Get the cell with the most negative opportunity cost
+        i, j = np.unravel_index(np.argmin(opportunity_costs), opportunity_costs.shape)
+        basic_cells.add((i, j))
+        print("cell", i, j)
+
+        # Find the loop for this cell
+        path = find_path(solution, (i, j), (i, j), basic_cells)
+
+        # Adjust the allocations
+        if path:
+            # Find the minimum value of the allocations along the path at odd positions
+            allocations = [solution[x][y] for idx, (x, y) in enumerate(path) if idx % 2 == 1]
+            min_allocation = min(allocations)
+
+            # Adjust the solution along the path
+            sign = 1
+            replaced_cell_in_basis = False
+            for (x, y) in path:
+                if solution[x][y] == min_allocation and not replaced_cell_in_basis and sign == -1:
+                    basic_cells.remove((x, y))
+                    replaced_cell_in_basis = True
+                solution[x][y] += sign * min_allocation
+                sign *= -1
+        else:
+            print('degenerate2')
+            break
+
+        for row in solution:
+            for col in row:
+                print(col, end=" ")
+            print()
+    
+    # Calculate the total cost for the final solution
+    # total = calculate_total_cost(solution, costs)
 
     return solution
+
+
+#         # Find the loop for this cell and adjust the allocations
+#         path = find_path(solution, (i, j), (i, j))
+#         if path:
+#             # Find the minimum value of the allocations along the path at odd positions
+#             allocations = [solution[x][y] for idx, (x, y) in enumerate(path) if idx % 2 == 1]
+#             min_alloc = min(allocations)
+
+#             # Adjust the solution along the path
+#             sign = 1
+#             for idx, (x, y) in enumerate(path):
+#                 solution[x][y] += sign * min_alloc
+#                 sign *= -1
+
+#     # Calculate the total cost for the final solution
+#     # total = calculate_total_cost(solution, costs)
+#     return solution
+
 
 
 

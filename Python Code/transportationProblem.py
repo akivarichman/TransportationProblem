@@ -2,6 +2,7 @@ from NWCM import NWCM
 from LCM import LCM
 from VAM import VAM
 from steppingStoneMethod import stepping_stone_method
+import numpy as np
 
 supply = [175, 200, 400, 225]
 demand = [50, 175, 225, 175, 300, 75]
@@ -23,12 +24,11 @@ columns = len(demand)
 # print("VAM")
 # solution = VAM(supply, demand, costs, solution, total, rows, columns)
 
-# Code for Stepping Stone Method is not complete
+# Code for Stepping Stone Method is complete
 # print("Optimal Solution")
-# stepping_stone_method(supply, demand, costs, solution, total, rows, columns)
+# solution = stepping_stone_method(costs, solution, rows, columns)
 
 for row in solution:
     for col in row:
         print(col, end=" ")
     print()
-print()

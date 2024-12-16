@@ -1,0 +1,69 @@
+.form-container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    flex-flow: column nowrap;
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.source-name, .destinaton-name {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+}
+
+.source-row, .demand-row, .destination-names-row {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.source-row > *, .demand-row > *, .destination-names-row > * {
+    flex: 1;
+    text-align: center;
+    padding: 5px;
+}
+
+.destination-names-row > * {
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+.source-row > * {
+    border: 1px solid black;
+}
+.demand-row > * {
+    border-left: 1px solid black;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+}
+.destination-names-row > *:first-child, .source-row > *:first-child, .demand-row > *:first-child {
+    border-left: none;
+}
+.destination-names-row > *:last-child, .source-row > *:last-child, .demand-row > *:last-child {
+    border-right: none;
+}
+
+.remove-button {
+    cursor: pointer;
+}
+
+.input > input {
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.buttons {
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.buttons > * {
+    margin: 0px 10px;
+}

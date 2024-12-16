@@ -1,6 +1,10 @@
 import './App.css';
 import Form from './components/Form'
 
+// To Do:
+// 1. make python code api with flask
+// 2. pdf insert
+
 function App() {
 
   return (

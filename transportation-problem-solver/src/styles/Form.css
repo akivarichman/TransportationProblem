@@ -1,3 +1,5 @@
+@import url('./variables.css');
+
 .form-container {
     display: block;
     margin-left: auto;
@@ -6,13 +8,14 @@
     height: fit-content;
     display: flex;
     flex-flow: column nowrap;
-    background-color: lightblue;
+    background-color: var(--color-lightgray);
     border-radius: 10px;
     padding: 10px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+    color: var(--color-black);
 }
 
-.source-name, .destinaton-name {
+.source-name, .destination-name {
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
@@ -30,17 +33,17 @@
 }
 
 .destination-names-row > * {
-    border-left: 1px solid black;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
+    border-left: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--color-black);
+    border-right: 1px solid var(--color-black);
 }
 .source-row > * {
-    border: 1px solid black;
+    border: 1px solid var(--color-black);
 }
 .demand-row > * {
-    border-left: 1px solid black;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
+    border-left: 1px solid var(--color-black);
+    border-top: 1px solid var(--color-black);
+    border-right: 1px solid var(--color-black);
 }
 .destination-names-row > *:first-child, .source-row > *:first-child, .demand-row > *:first-child {
     border-left: none;

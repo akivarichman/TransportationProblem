@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('./styles/variables.css');
 
 body {
-  background-color: #99A3A4;
+  background-color: var(--color-gray);
 }
 
 .heading {
@@ -16,8 +17,7 @@ body {
 }
 
 span {
-  /* Gradient text */
-  background: linear-gradient(to left, #4e79b0, #1f51a3);
+  background: linear-gradient(to top right, var(--color-lightblue), var(--color-darkblue));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

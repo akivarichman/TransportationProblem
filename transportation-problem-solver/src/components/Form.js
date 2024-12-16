@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import "../styles/Form.css";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
-
-// Next To Do:
+import Button from './Button'
 
 function Form() {
 
@@ -11,6 +10,10 @@ function Form() {
     const[supplyInputs, setSupplyInputs] = useState(['', '', ''])
     const[demandInputs, setDemandInputs] = useState(['', '', ''])
     const[costInputs, setCostInputs] = useState([['', '', ''], ['', '', ''], ['', '', '']])
+    const[chosenMethod, setChosenMethod] = useState('')
+    const[isNWCM, setIsNWCM] = useState(false)
+    const[isLCM, setIsLCM] = useState(false)
+    const[isVAM, setIsVAM] = useState(false)
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -18,6 +21,7 @@ function Form() {
             supplies: [...supplyInputs],
             demands: [...demandInputs],
             costs: [...costInputs],
+            method: chosenMethod
         };
         if(isFormDataValid(formData)) {
             console.log('form data is valid');
@@ -35,11 +39,12 @@ function Form() {
             // all cost inputs are greater than or equal to zero
             data.costs.every((row) => row.every((value) => value !== null && value !== '' && value >= 0)) &&
             // supply is equal to demand
-            (data.supplies.reduce((sum, value) => sum + Number(value || 0), 0) === data.demands.reduce((sum, value) => sum + Number(value || 0), 0))
+            (data.supplies.reduce((sum, value) => sum + Number(value || 0), 0) === data.demands.reduce((sum, value) => sum + Number(value || 0), 0)) &&
+            // a method to find the initial solution was chosen
+            (data.method === 'NWCM' || data.method === 'LCM' || data.method === 'VAM')
         );
     }
 
-    // do I even need handleInputChange? cant I just store the values in handleSubmit?
     const handleInputChange = (event, index, idx) => {
         if(event.target.name === 'supply') {
             const updatedInputs = [...supplyInputs];
@@ -69,6 +74,19 @@ function Form() {
     useEffect(() => {
         console.log('Costs: ', costInputs);
     }, [costInputs]);
+
+    useEffect(() => {
+        console.log('Chosen Method', chosenMethod);
+    }, [chosenMethod]);
+    useEffect(() => {
+        console.log('isNWCM: ', isNWCM);
+    }, [isNWCM]);
+    useEffect(() => {
+        console.log('isLCM: ', isLCM);
+    }, [isLCM]);
+    useEffect(() => {
+        console.log('isVAM: ', isVAM);
+    }, [isVAM]);
 
     const handleAddSourceButtonClick = (event) => {
         const num = numberOfSources + 1
@@ -117,8 +135,26 @@ function Form() {
         })
         setCostInputs(newCostInputs)
     }
-    
 
+    const handleMethodChoiceClick = (event) => {
+        console.log('New Click');
+        const method = event.target.innerText;
+        const methodState = {
+            'NWCM': isNWCM,
+            'LCM': isLCM,
+            'VAM': isVAM
+        };
+        if (methodState.hasOwnProperty(method)) {
+            const isSelected = methodState[method];
+            setChosenMethod(isSelected ? '' : method);
+            setIsNWCM(method === 'NWCM' && !isSelected);
+            setIsLCM(method === 'LCM' && !isSelected);
+            setIsVAM(method === 'VAM' && !isSelected);
+        } else {
+            console.log('unexpected value for event.target.innerText: ', method);
+        }
+    }
+    
     return(
         <div>
             <div class='form-container'>
@@ -127,7 +163,7 @@ function Form() {
                         <div></div>
                         {demandInputs.map((item, index) =>
                             <div class='destination-name'>
-                                <div>New Destination {index}</div>
+                                <div>Destination {index}</div>
                                 {(index > 1) && <div class='remove-button' onClick={(event) => handleRemoveDestinationClick(index)}><IoMdRemoveCircleOutline/></div>}
                             </div>
                         )}
@@ -136,7 +172,7 @@ function Form() {
                     {supplyInputs.map((item, index) =>
                         <div class='source-row'>
                             <div class='source-name'>
-                                <div>New Source {index}</div>
+                                <div>Source {index}</div>
                                 {(index > 1) && <div class='remove-button' onClick={(event) => handleRemoveSourceClick(index)}><IoMdRemoveCircleOutline/></div>}
                             </div>
                             {costInputs[index].map((item, idx) =>
@@ -161,9 +197,13 @@ function Form() {
                         <div></div>
                     </div>
                     <div class='buttons'>
-                        <button onClick={handleAddSourceButtonClick}>Add Source</button>
-                        <button onClick={handleAddDestinationButtonClick}>Add Destination</button>
-                        <input type='submit'></input>
+                        <Button onClick={handleAddSourceButtonClick} text='Add Source' colorStart='#4e79b0' colorEnd='#1f51a3'/>
+                        <Button onClick={handleAddDestinationButtonClick} text='Add Destination' colorStart='#4e79b0' colorEnd='#1f51a3'/>
+                        <Button onClick={handleMethodChoiceClick} text='NWCM' colorStart='#FFA500' colorEnd='#FF7F00'/>
+                        <Button onClick={handleMethodChoiceClick} text='LCM' colorStart='#FFA500' colorEnd='#FF7F00'/>
+                        <Button onClick={handleMethodChoiceClick} text='VAM' colorStart='#FFA500' colorEnd='#FF7F00'/>
+                        <Button type='submit' text='Submit' colorStart='#4e79b0' colorEnd='#1f51a3'/>
+
                     </div>
                 </form>
             </div>

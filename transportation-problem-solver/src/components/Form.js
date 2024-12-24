@@ -30,11 +30,11 @@ function Form() {
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ data: formData }),
-              })
-                .then((response) => response.json())
-                .then((data) => console.log('Response:', data))
-                .catch((error) => console.error('Error:', error));
+                body: JSON.stringify({data: formData}),
+            })
+            .then((response) => response.json())
+            .then((data) => console.log('Response:', data))
+            .catch((error) => console.error('Error:', error));
         } else {
             console.log('error');
         }

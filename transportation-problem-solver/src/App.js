@@ -1,5 +1,6 @@
 import './App.css';
 import Form from './components/Form'
+import Connection from './components/Connection'
 
 // To Do:
 // 1. make python code api with flask
@@ -34,6 +35,7 @@ function App() {
         <span>m</span>
       </div>
       <Form/>
+      <Connection/>
     </div>
   );
 }

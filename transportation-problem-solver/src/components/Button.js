@@ -17,10 +17,10 @@ const StyledButton = styled.button`
   }
 `;
 
-function Button({onClick, text, colorStart, colorEnd}) {
+function Button({onClick, text, colorStart, colorEnd, type = 'button'}) {
 
   return (
-    <StyledButton onClick={onClick} colorStart={colorStart} colorEnd={colorEnd}>
+    <StyledButton onClick={onClick} colorStart={colorStart} colorEnd={colorEnd} type={type}>
       {text}
     </StyledButton>
   );

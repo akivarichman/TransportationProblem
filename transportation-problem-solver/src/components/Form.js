@@ -25,6 +25,16 @@ function Form() {
         };
         if(isFormDataValid(formData)) {
             console.log('form data is valid');
+            fetch('http://localhost:5000/api/data', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data: formData }),
+              })
+                .then((response) => response.json())
+                .then((data) => console.log('Response:', data))
+                .catch((error) => console.error('Error:', error));
         } else {
             console.log('error');
         }
@@ -203,7 +213,6 @@ function Form() {
                         <Button onClick={handleMethodChoiceClick} text='LCM' colorStart='#FFA500' colorEnd='#FF7F00'/>
                         <Button onClick={handleMethodChoiceClick} text='VAM' colorStart='#FFA500' colorEnd='#FF7F00'/>
                         <Button type='submit' text='Submit' colorStart='#4e79b0' colorEnd='#1f51a3'/>
-
                     </div>
                 </form>
             </div>

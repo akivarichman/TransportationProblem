@@ -35,7 +35,6 @@ function App() {
         <span>m</span>
       </div>
       <Form/>
-      <Connection/>
     </div>
   );
 }

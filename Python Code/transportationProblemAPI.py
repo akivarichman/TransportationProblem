@@ -26,7 +26,6 @@ def post_data():
         total = sum(s for s in supply)
         rows = len(supply)
         columns = len(demand)
-        number_of_iterations = 0
         print(nested_data)  # Debug: Print the received data
         print(supply)
         print(demand)
@@ -46,19 +45,20 @@ def post_data():
         # If all validations pass, process the data
         if(method == 'NWCM'):
             init_solution = NWCM(supply, demand, costs, deepcopy(solution), total)
-            opt_solution = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
+            opt_solution, number_of_iterations = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
         elif(method == 'LCM'):
-            init_solution = NWCM(supply, demand, costs, deepcopy(solution), total)
-            opt_solution = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
+            init_solution = LCM(supply, demand, costs, deepcopy(solution), total)
+            opt_solution, number_of_iterations = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
         elif(method == 'VAM'):
-            init_solution = NWCM(supply, demand, costs, deepcopy(solution), total, rows, columns)
-            opt_solution = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
+            init_solution = VAM(supply, demand, costs, deepcopy(solution), total, rows, columns)
+            opt_solution, number_of_iterations = stepping_stone_method(costs, deepcopy(init_solution), rows, columns)
 
         return jsonify({
             'message': 'Data received successfully!',
             'received': data,
             'initial_solution': init_solution,
-            'optimal_solution': opt_solution
+            'optimal_solution': opt_solution,
+            'iterations': number_of_iterations
         }), 200  # Send a 200 OK status
 
     except Exception as e:

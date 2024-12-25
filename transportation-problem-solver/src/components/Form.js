@@ -209,9 +209,9 @@ function Form() {
                     <div class='buttons'>
                         <Button onClick={handleAddSourceButtonClick} text='Add Source' colorStart='#4e79b0' colorEnd='#1f51a3'/>
                         <Button onClick={handleAddDestinationButtonClick} text='Add Destination' colorStart='#4e79b0' colorEnd='#1f51a3'/>
-                        <Button onClick={handleMethodChoiceClick} text='NWCM' colorStart='#FFA500' colorEnd='#FF7F00'/>
-                        <Button onClick={handleMethodChoiceClick} text='LCM' colorStart='#FFA500' colorEnd='#FF7F00'/>
-                        <Button onClick={handleMethodChoiceClick} text='VAM' colorStart='#FFA500' colorEnd='#FF7F00'/>
+                        <Button onClick={handleMethodChoiceClick} text='NWCM' colorStart={isNWCM ? '#FFB84D' : '#4e79b0'} colorEnd={isNWCM ? '#FF7F00' : '#1f51a3'}/>
+                        <Button onClick={handleMethodChoiceClick} text='LCM' colorStart={isLCM ? '#FFB84D' : '#4e79b0'} colorEnd={isLCM ? '#FF7F00' : '#1f51a3'}/>
+                        <Button onClick={handleMethodChoiceClick} text='VAM' colorStart={isVAM ? '#FFB84D' : '#4e79b0'} colorEnd={isVAM ? '#FF7F00' : '#1f51a3'}/>
                         <Button type='submit' text='Submit' colorStart='#4e79b0' colorEnd='#1f51a3'/>
                     </div>
                 </form>

@@ -68,6 +68,8 @@ def find_path(solution, start, end, basic_cells):
 
 def stepping_stone_method(costs, solution, rows, columns):
 
+    iterations = 0
+
     # set of all basic cells
     basic_cells = set()
     for row in range(len(solution)):
@@ -96,6 +98,8 @@ def stepping_stone_method(costs, solution, rows, columns):
         min_cost = np.min(opportunity_costs)
         if min_cost >= 0: # No improvement possible, optimal solution found
             break
+        
+        iterations += 1
 
         # Get the cell with the most negative opportunity cost and add it to the basis
         i, j = np.unravel_index(np.argmin(opportunity_costs), opportunity_costs.shape)
@@ -122,4 +126,4 @@ def stepping_stone_method(costs, solution, rows, columns):
             print('degenerate2')
             break
 
-    return solution
+    return solution, iterations

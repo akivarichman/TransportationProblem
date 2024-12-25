@@ -26,9 +26,11 @@ columns = len(demand)
 
 # Code for Stepping Stone Method is complete
 # print("Optimal Solution")
-# solution = stepping_stone_method(costs, solution, rows, columns)
+# solution, iterations = stepping_stone_method(costs, solution, rows, columns)
 
 for row in solution:
     for col in row:
         print(col, end=" ")
     print()
+
+# print('Number of Optimization Iterations: ', iterations)

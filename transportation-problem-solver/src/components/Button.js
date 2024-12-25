@@ -9,7 +9,7 @@ const StyledButton = styled.button`
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    background: linear-gradient(to bottom left, var(--color-lightblue), var(--color-darkblue)); /* ${(props) => props.colorStart}, ${(props) => props.colorEnd} */
+    background: linear-gradient(to bottom left, ${(props) => props.colorStart}, ${(props) => props.colorEnd}); /* ${(props) => props.colorStart}, ${(props) => props.colorEnd} */
 
   /* Optional: Add hover effect for better interaction */
   &:hover {

@@ -3,7 +3,7 @@ import "../styles/Form.css";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import Button from './Button'
 
-function Form() {
+function Form({setResult}) {
 
     const[numberOfSources, setNumberOfSources] = useState(3)
     const[numberOfDestinations, setNumberOfDestinations] = useState(3)
@@ -33,7 +33,10 @@ function Form() {
                 body: JSON.stringify({data: formData}),
             })
             .then((response) => response.json())
-            .then((data) => console.log('Response:', data))
+            .then((data) => {
+                console.log('Response:', data);
+                setResult(data);
+            })
             .catch((error) => console.error('Error:', error));
         } else {
             console.log('error');
@@ -216,7 +219,6 @@ function Form() {
                     </div>
                 </form>
             </div>
-            
         </div>        
     );
 }

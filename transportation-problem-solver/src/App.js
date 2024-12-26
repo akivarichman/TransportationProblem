@@ -1,16 +1,16 @@
 import './App.css';
 import Form from './components/Form'
-import Connection from './components/Connection'
+// import Connection from './components/Connection'
+// import PDFViewer from './components/PDFViewer';
 
 // To Do:
-// 1. make python code api with flask
-// 2. pdf insert
+// 1. pdf insert
 
 function App() {
 
   return (
-    <div class='page'>
-      <div class='heading'>
+    <div className='page'>
+      <div className='heading'>
         <span>T</span>
         <span>r</span>
         <span>a</span>

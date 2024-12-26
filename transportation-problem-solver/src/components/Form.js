@@ -73,30 +73,30 @@ function Form() {
         }
     }
 
-    useEffect(() => {
-        console.log('Supply: ', supplyInputs);
-    }, [supplyInputs]);
+    // useEffect(() => {
+    //     console.log('Supply: ', supplyInputs);
+    // }, [supplyInputs]);
 
-    useEffect(() => {
-        console.log('Demand: ', demandInputs);
-    }, [demandInputs]);
+    // useEffect(() => {
+    //     console.log('Demand: ', demandInputs);
+    // }, [demandInputs]);
 
-    useEffect(() => {
-        console.log('Costs: ', costInputs);
-    }, [costInputs]);
+    // useEffect(() => {
+    //     console.log('Costs: ', costInputs);
+    // }, [costInputs]);
 
-    useEffect(() => {
-        console.log('Chosen Method', chosenMethod);
-    }, [chosenMethod]);
-    useEffect(() => {
-        console.log('isNWCM: ', isNWCM);
-    }, [isNWCM]);
-    useEffect(() => {
-        console.log('isLCM: ', isLCM);
-    }, [isLCM]);
-    useEffect(() => {
-        console.log('isVAM: ', isVAM);
-    }, [isVAM]);
+    // useEffect(() => {
+    //     console.log('Chosen Method', chosenMethod);
+    // }, [chosenMethod]);
+    // useEffect(() => {
+    //     console.log('isNWCM: ', isNWCM);
+    // }, [isNWCM]);
+    // useEffect(() => {
+    //     console.log('isLCM: ', isLCM);
+    // }, [isLCM]);
+    // useEffect(() => {
+    //     console.log('isVAM: ', isVAM);
+    // }, [isVAM]);
 
     const handleAddSourceButtonClick = (event) => {
         const num = numberOfSources + 1
@@ -167,46 +167,46 @@ function Form() {
     
     return(
         <div>
-            <div class='form-container'>
+            <div className='form-container'>
                 <form onSubmit={handleSubmit}>
-                    <div class='destination-names-row'>
+                    <div className='destination-names-row'>
                         <div></div>
                         {demandInputs.map((item, index) =>
-                            <div class='destination-name'>
+                            <div className='destination-name' key={index}>
                                 <div>Destination {index}</div>
-                                {(index > 1) && <div class='remove-button' onClick={(event) => handleRemoveDestinationClick(index)}><IoMdRemoveCircleOutline/></div>}
+                                {(index > 1) && <div className='remove-button' onClick={(event) => handleRemoveDestinationClick(index)}><IoMdRemoveCircleOutline/></div>}
                             </div>
                         )}
                         <div><b>Supply</b></div>
                     </div>
                     {supplyInputs.map((item, index) =>
-                        <div class='source-row'>
-                            <div class='source-name'>
+                        <div className='source-row' key={index}>
+                            <div className='source-name'>
                                 <div>Source {index}</div>
-                                {(index > 1) && <div class='remove-button' onClick={(event) => handleRemoveSourceClick(index)}><IoMdRemoveCircleOutline/></div>}
+                                {(index > 1) && <div className='remove-button' onClick={(event) => handleRemoveSourceClick(index)}><IoMdRemoveCircleOutline/></div>}
                             </div>
                             {costInputs[index].map((item, idx) =>
-                                <div>
-                                    <div class='input'> 
+                                <div key={idx}>
+                                    <div className='input'> 
                                         <input type='number' name='cost' min='0' value={costInputs[index][idx]} onChange={(event) => handleInputChange(event, index, idx)} required></input> 
                                     </div>
                                 </div>
                             )}
-                            <div class='input'>
+                            <div className='input'>
                                 <input type='number' name='supply' min='0' value={supplyInputs[index]} onChange={(event) => handleInputChange(event, index)} required></input>
                             </div>
                         </div>
                     )}
-                    <div class='demand-row'>
+                    <div className='demand-row'>
                         <div><b>Demand</b></div>
                         {demandInputs.map((item, index) =>
-                            <div class='input'>
+                            <div className='input' key={index}>
                                 <input type='number' name='demand' min='0' value={demandInputs[index]} onChange={(event) => handleInputChange(event, index)} required></input>
                             </div>
                         )}
                         <div></div>
                     </div>
-                    <div class='buttons'>
+                    <div className='buttons'>
                         <Button onClick={handleAddSourceButtonClick} text='Add Source' colorStart='#4e79b0' colorEnd='#1f51a3'/>
                         <Button onClick={handleAddDestinationButtonClick} text='Add Destination' colorStart='#4e79b0' colorEnd='#1f51a3'/>
                         <Button onClick={handleMethodChoiceClick} text='NWCM' colorStart={isNWCM ? '#FFB84D' : '#4e79b0'} colorEnd={isNWCM ? '#FF7F00' : '#1f51a3'}/>

@@ -9,7 +9,7 @@ const StyledButton = styled.button`
     font-weight: bold;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    background: linear-gradient(to bottom left, ${(props) => props.colorStart}, ${(props) => props.colorEnd}); /* ${(props) => props.colorStart}, ${(props) => props.colorEnd} */
+    background: linear-gradient(to bottom left, ${(props) => props.colorstart}, ${(props) => props.colorend}); /* ${(props) => props.colorstart}, ${(props) => props.colorend} */
 
   /* Optional: Add hover effect for better interaction */
   &:hover {
@@ -20,7 +20,7 @@ const StyledButton = styled.button`
 function Button({onClick, text, colorStart, colorEnd, type = 'button'}) {
 
   return (
-    <StyledButton onClick={onClick} colorStart={colorStart} colorEnd={colorEnd} type={type}>
+    <StyledButton onClick={onClick} colorstart={colorStart} colorend={colorEnd} type={type}>
       {text}
     </StyledButton>
   );

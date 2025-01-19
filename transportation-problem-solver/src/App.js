@@ -37,6 +37,13 @@ function App() {
             <span>l</span>
             <span>e</span>
             <span>m</span>
+            <span> </span>
+            <span>S</span>
+            <span>o</span>
+            <span>l</span>
+            <span>v</span>
+            <span>e</span>
+            <span>r</span>
         </div>
         <Form setResult={setResult}/>
         <ResultDashboard result={result}/>

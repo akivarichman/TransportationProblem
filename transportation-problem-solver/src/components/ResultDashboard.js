@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react'
 import "../styles/ResultDashboard.css";
+import SolutionMatrix from "./SolutionMatrix";
 
 function ResultDashboard({result}) {
 
@@ -7,8 +7,12 @@ function ResultDashboard({result}) {
 
     return(
         <div className='result-dashboard-container'>
-            Hello
-            {JSON.stringify(result)}
+            {result ? 
+                <div>
+                    <SolutionMatrix result={result}/>
+                </div>
+                : 'Hello'
+            }
         </div>        
     );
 }

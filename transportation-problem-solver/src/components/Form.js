@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import "../styles/Form.css";
 import { IoMdRemoveCircleOutline } from "react-icons/io";
 import Button from './Button'
+import {test1} from '../utils/testData'
 
 function Form({setResult}) {
 
@@ -15,22 +16,15 @@ function Form({setResult}) {
     const[isLCM, setIsLCM] = useState(false)
     const[isVAM, setIsVAM] = useState(false)
 
-    const testFormData = {
-        supplies: [175, 200, 400, 225],
-        demands: [50, 175, 225, 175, 300, 75],
-        costs: [[17, 18, 10, 10, 5, 13], [6, 11, 13, 5, 10, 8], [9, 10, 4, 4, 3, 5], [13, 8, 6, 14, 9, 11]],
-        method: chosenMethod
-    }
-
     const handleTest = (event) => {
-        if(isFormDataValid(testFormData)) {
+        if(isFormDataValid(test1)) {
             console.log('form data is valid');
             fetch('http://localhost:5000/api/data', {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({data: testFormData}),
+                body: JSON.stringify({data: test1}),
             })
             .then((response) => response.json())
             .then((data) => {
